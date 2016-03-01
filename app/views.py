@@ -7,7 +7,7 @@ import time
 from threading import Thread
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import datetime
-
+from check import *
 
 # socketio = SocketIO(app, async_mode=async_mode)
 thread = None
@@ -66,11 +66,13 @@ def index():
 		if os.path.isfile('/mnt/chat.txt') == False:
 			a = soldier.run('sudo touch /mnt/chat.txt', sudo=syspass)
 		curr_time = time.time()
+		session['user']=1
 		# print session['curr']
 		return redirect('/chat')
 
 
 @app.route('/chat')
+@login_required
 def chat():
 	global thread
 	if thread is None:
